@@ -1,0 +1,56 @@
+.StarredListItem-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0 20px;
+    border-bottom: 1px solid rgba(170, 170, 170, .4);
+}
+
+.StarredListItem-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.StarredListItem-title {
+    color: #0366d6;
+}
+
+.StarredListItem-star {
+    content: " ";
+    display: block;
+    float: left;
+    height: 18px;
+    line-height: 18px;
+    position: relative;
+    width: 18px;
+}
+
+.StarredListItem-star::after {
+    position: absolute;
+    content: "\2605";
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.StarredListItem-starLoading {
+    animation: spin 2s infinite linear;
+}
+
+.StarredListItem-description {
+    color: #586069;
+    padding: 5px 0;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: rotate(360deg);
+        opacity: 0.9;
+    }
+}

@@ -1,28 +1,48 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { Component, Props } from 'react';
+import { ApolloProvider } from 'react-apollo';
+import { client } from './apollo';
+import Auth from './services/Auth';
+import { Login, Layout, Button } from './components';
 import './App.css';
+import { Profile } from './components/Profile/Profile';
 
-class App extends Component {
-  render() {
+const initialState = {isAuthenticated: false};
+type State = Readonly<typeof initialState>
+
+export default class App extends Component<Props<object>, State> {
+  public readonly state: State = initialState;
+  
+  public componentDidMount() {
+    this.checkAuthentication();
+    Auth.subscribe('root', this.checkAuthentication.bind(this));
+  }
+  
+  public render() {
+    const {isAuthenticated} = this.state;
+    
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <ApolloProvider client={client}>
+        <Layout>
+          <div className="App-header">
+            <h2 className="App-title">Starred Repositories</h2>
+            {isAuthenticated && <Button onClick={() => this.logout()}>Log Out</Button>}
+          </div>
+          {isAuthenticated ? <Profile/> : <Login/>}
+        </Layout>
+      </ApolloProvider>
     );
   }
+  
+  public componentWillUnmoutn() {
+    Auth.unsubscribe('root');
+  }
+  
+  private checkAuthentication(): void {
+    const isAuthenticated = Auth.isLoggedIn();
+    this.setState({isAuthenticated});
+  }
+  
+  private logout(): void {
+    Auth.logout();
+  }
 }
-
-export default App;

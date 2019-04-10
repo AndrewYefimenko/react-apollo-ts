@@ -1,0 +1,21 @@
+.Button {
+  background: linear-gradient(-180deg,#fafbfc,#eff3f6 90%), #eff3f6;
+  color: #24292e;
+  transition: all .3s;
+  padding: 5px 10px;
+  outline: none;
+  margin: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.Button:not([disabled]) {
+  cursor: pointer;
+}
+
+.Button[disabled] {
+  opacity: .7;
+}
+
+.Button:not([disabled]):hover {
+  background: linear-gradient(-180deg,#f0f3f6,#e6ebf1 90%) -.5em, #e6ebf1;
+}
