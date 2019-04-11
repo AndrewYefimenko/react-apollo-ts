@@ -17,6 +17,10 @@ export default class App extends Component<Props<object>, State> {
     Auth.subscribe('root', this.checkAuthentication.bind(this));
   }
   
+  public shouldComponentUpdate(nextProps: object, nextState: State) {
+    return this.state.isAuthenticated !== nextState.isAuthenticated;
+  }
+  
   public render() {
     const {isAuthenticated} = this.state;
     
@@ -44,5 +48,6 @@ export default class App extends Component<Props<object>, State> {
   
   private logout(): void {
     Auth.logout();
+    client.clearStore();
   }
 }
