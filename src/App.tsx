@@ -29,7 +29,7 @@ export default class App extends Component<Props<object>, State> {
         <Layout>
           <div className="App-header">
             <h2 className="App-title">Starred Repositories</h2>
-            {isAuthenticated && <Button onClick={() => this.logout()}>Log Out</Button>}
+            {isAuthenticated && <Button onClick={this.logout}>Log Out</Button>}
           </div>
           {isAuthenticated ? <Profile/> : <Login/>}
         </Layout>
@@ -46,7 +46,7 @@ export default class App extends Component<Props<object>, State> {
     this.setState({isAuthenticated});
   }
   
-  private logout(): void {
+  private logout = (): void => {
     Auth.logout();
     client.clearStore();
   }

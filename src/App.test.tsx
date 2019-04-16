@@ -41,7 +41,6 @@ describe('<App />', () => {
     const wrapper = mount(<App />);
     wrapper.instance().setState({isAuthenticated: true});
     wrapper.update();
-    console.log(wrapper.instance().state);
     wrapper.find('button').simulate('click');
     expect(wrapper.instance().state).toHaveProperty('isAuthenticated', false);
     wrapper.unmount();

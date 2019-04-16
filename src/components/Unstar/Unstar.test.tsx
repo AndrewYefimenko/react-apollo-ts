@@ -13,10 +13,6 @@ let repos = fakeRepos(1);
 const starrableId = repos[0].id;
 let mocks: MockedResponse[] = [
   {
-    request: {query: STARED_REPOSITORIES },
-    result: {"data": {"viewer": {"id": "111", "starredRepositories": {"nodes": repos}}}},
-  },
-  {
     request: {query: REMOVE_STAR, variables: {"input": {"clientMutationId": "111", "starrableId": starrableId}}},
     result: {
       "data": {
@@ -55,7 +51,6 @@ describe('<Unstar />', () => {
   
   it('should be disabled after click', async () => {
     let apolloClient: any;
-    let res;
     wrapper = mount(
       <MockedProvider mocks={mocks} addTypename={false}>
         <ApolloConsumer>
@@ -92,12 +87,10 @@ describe('<Unstar />', () => {
     );
     await wait(0);
     wrapper.update();
-    
-    res = await apolloClient.query({query: STARED_REPOSITORIES});
-    expect(res.data.viewer.starredRepositories.nodes).toHaveLength(1);
+
     wrapper.find('button').simulate('click');
     await wait(0);
-    
+
     res = await apolloClient.query({query: STARED_REPOSITORIES});
     expect(res.data.viewer.starredRepositories.nodes).toHaveLength(0);
   })
